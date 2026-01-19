@@ -1,0 +1,24 @@
+name: Verilog Testbench
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Icarus Verilog
+      run: sudo apt-get update && sudo apt-get install -y iverilog
+
+    - name: Compile Verilog
+      run: iverilog -o sim.vvp -s hex_to_7seg_tb rtl/hex_to_7seg.v tb/hex_to_7seg_tb.v
+
+    - name: Run Testbench
+      run: vvp sim.vvp
