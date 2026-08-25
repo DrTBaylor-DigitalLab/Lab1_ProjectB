@@ -21,4 +21,6 @@ jobs:
       run: iverilog -o sim.vvp -s hex_to_7seg_tb rtl/hex_to_7seg.v tb/hex_to_7seg_tb.v
 
     - name: Run Testbench
-      run: vvp sim.vvp
+      run: |
+        vvp sim.vvp | tee output.txt
+        grep -q "ALL TESTS PASSED" output.txt
